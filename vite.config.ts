@@ -5,6 +5,7 @@ import eslint from 'vite-plugin-eslint2';
 import tsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
+  base: "./graduation-project-frontend/",
   plugins: [react(), eslint(), tsConfigPaths()],
   build: {
     cssMinify: "lightningcss",
