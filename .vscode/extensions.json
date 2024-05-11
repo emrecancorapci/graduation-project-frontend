@@ -1,0 +1,13 @@
+{
+    "recommendations": [
+        "wix.vscode-import-cost",
+        "donjayamanne.githistory",
+        "mhutchie.git-graph",
+        "dbaeumer.vscode-eslint",
+        "visualstudioexptteam.vscodeintellicode",
+        "esbenp.prettier-vscode",
+        "yoavbls.pretty-ts-errors",
+        "bradlc.vscode-tailwindcss",
+        "usernamehw.errorlens"
+    ]
+}
