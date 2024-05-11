@@ -6,7 +6,7 @@ import Home from './pages/home';
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route element={<Layout />} path="/">
+      <Route element={<Layout />} path="/graduation-project-frontend/">
         <Route element={<Home />} index />
       </Route>
 
