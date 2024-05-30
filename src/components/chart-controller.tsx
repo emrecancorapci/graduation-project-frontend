@@ -33,9 +33,9 @@ export default function ChartController() {
   }, [setVisible]);
 
   return (
-    <div className="grid grid-cols-1 flex-row gap-4 p-4 font-light text-primary">
+    <div className="grid grid-cols-1 flex-row gap-8 p-4 font-light">
       <div className="flex flex-row items-center gap-4">
-        <h3 className="text-xl font-semibold">Visibility</h3>
+        <h3 className="text-xl font-semibold text-foreground">Visibility</h3>
         <Button
           className="h-6 w-16"
           variant={
@@ -48,12 +48,14 @@ export default function ChartController() {
           All
         </Button>
       </div>
-      <VisibilitySwitch label="Humidity" isVisible={isHdVisible} onToggle={toggleHd} />
-      <VisibilitySwitch label="Temperature" isVisible={isTpVisible} onToggle={toggleTp} />
-      <VisibilitySwitch label="pH" isVisible={isPhVisible} onToggle={togglePh} />
-      <VisibilitySwitch label="Ground Humidity" isVisible={isGhVisible} onToggle={toggleGh} />
-      <VisibilitySwitch label="Air Quality" isVisible={isAqVisible} onToggle={toggleAq} />
-      <VisibilitySwitch label="Light" isVisible={isLtVisible} onToggle={toggleLt} />
+      <div className="grid grid-cols-2 gap-2 text-primary">
+        <VisibilitySwitch label="Humidity" isVisible={isHdVisible} onToggle={toggleHd} />
+        <VisibilitySwitch label="Temperature" isVisible={isTpVisible} onToggle={toggleTp} />
+        <VisibilitySwitch label="pH" isVisible={isPhVisible} onToggle={togglePh} />
+        <VisibilitySwitch label="Ground Humidity" isVisible={isGhVisible} onToggle={toggleGh} />
+        <VisibilitySwitch label="Air Quality" isVisible={isAqVisible} onToggle={toggleAq} />
+        <VisibilitySwitch label="Light" isVisible={isLtVisible} onToggle={toggleLt} />
+      </div>
     </div>
   );
 }

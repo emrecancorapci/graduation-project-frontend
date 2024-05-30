@@ -31,7 +31,7 @@ const initialState = {
     bottom: 20,
   },
   xAxisDomain: ['dataMin', 'dataMax'],
-  yAxisDomain: ['dataMin-5', 'dataMax+5'],
+  yAxisDomain: [0, 'dataMax+5'],
 };
 
 export default function Chart() {
@@ -42,10 +42,11 @@ export default function Chart() {
   return (
     <ResponsiveContainer>
       <LineChart width={1200} height={600} data={formattedData} margin={chartState.chartMarigin}>
-        <CartesianGrid fill="#eee" opacity={0.2} />
+        <CartesianGrid fill="#222" opacity={0.2} />
         <XAxis domain={chartState.xAxisDomain} dataKey="timeAxis">
           <Label value="Time" position="insideBottom" offset={-10} />
         </XAxis>
+        {/* @ts-expect-error Type defined wrongly. It should be (number | string)[] but it is number[] | string[] */}
         <YAxis domain={chartState.yAxisDomain} />
         <Tooltip content={<ChartTooltip />} />
         <Legend verticalAlign="top" height={42} />
@@ -81,7 +82,7 @@ export default function Chart() {
           type="monotone"
           hide={!visibleValues.has('GH')}
           dataKey="g_hum"
-          name="GH"
+          name="Ground Humidity"
           stroke="#f88488"
           strokeWidth={2}
           unit="%"

@@ -12,8 +12,8 @@ interface CustomTooltipProperties {
 export default function ChartTooltip({ active, payload, label }: CustomTooltipProperties) {
   if (active && payload && payload.length > 0) {
     return (
-      <div className="flex flex-col justify-center rounded-lg border border-border/80 bg-card/80 p-2">
-        <h3 className="w-full text-center text-lg font-bold text-white">{label}</h3>
+      <div className="flex flex-col justify-center rounded-lg border border-border/80 bg-card/80 p-2 backdrop-blur-sm">
+        <h3 className="w-full text-center text-lg font-bold text-primary">{label}</h3>
         <div className="flex flex-col p-2">
           {payload.map((singlePayload: CustomPayload) => (
             <KvPair key={singlePayload.name} payload={singlePayload} />
@@ -32,13 +32,13 @@ function KvPair({ payload }: { payload: CustomPayload }) {
     };
   }, [payload.color]);
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row justify-between gap-6 *:text-right">
       <p style={memoizedStyle} className="font-bold">
         {payload.name}
       </p>
-      <p className="font-extralight text-white">
+      <p className="font-extralight text-card-foreground">
         {payload.value}
-        <span className="text-xs">{payload.unit}</span>
+        {payload.unit}
       </p>
     </div>
   );
