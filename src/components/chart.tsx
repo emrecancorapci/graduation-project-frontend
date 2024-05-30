@@ -1,68 +1,25 @@
 import { useState } from 'react';
 import { CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
+import mockData from '@/assets/mock_data.json';
 import { useChartControllerStore } from '@/stores/chart-controller-store';
 
 import ChartTooltip from './chart-tooltip';
 
-const now = Date.now();
-
-const mockData = [
-  {
-    time: now,
-    temp: 24.2,
-    hum: 34.5,
-    amt: 2400,
-  },
-  {
-    time: now - 5 * 60_000,
-    temp: 24.4,
-    hum: 34.8,
-    amt: 2210,
-  },
-  {
-    time: now - 2 * 5 * 60_000,
-    temp: 24.1,
-    hum: 34.9,
-    amt: 2290,
-  },
-  {
-    time: now - 3 * 5 * 60_000,
-    temp: 24,
-    hum: 34.9,
-    amt: 2000,
-  },
-  {
-    time: now - 4 * 5 * 60_000,
-    temp: 23.9,
-    hum: 34.7,
-    amt: 2181,
-  },
-  {
-    time: now - 5 * 5 * 60_000,
-    temp: 23.9,
-    hum: 34.8,
-    amt: 2500,
-  },
-  {
-    time: now - 6 * 5 * 60_000,
-    temp: 24.2,
-    hum: 34.5,
-    amt: 2100,
-  },
-];
-
 const formattedData = mockData
   .map((data) => ({
-    time: new Date(data.time).toUTCString(),
-    timeAxis: new Date(data.time).toLocaleTimeString('tr-TR', {
+    time: new Date(data.date).toUTCString(),
+    timeAxis: new Date(data.date).toLocaleTimeString('tr-TR', {
       hour: '2-digit',
       minute: '2-digit',
       hour12: false,
     }),
-    temp: data.temp.toFixed(1),
-    hum: data.hum.toFixed(1),
-    amt: data.amt.toFixed(0),
+    temp: data.temp,
+    hum: data.hum,
+    ph: data.ph.toFixed(2),
+    g_hum: data.g_hum,
+    air: data.air,
+    light: data.light,
   }))
   .sort((a, b) => a.time.localeCompare(b.time));
 
@@ -74,7 +31,7 @@ const initialState = {
     bottom: 20,
   },
   xAxisDomain: ['dataMin', 'dataMax'],
-  yAxisDomain: [20, 40],
+  yAxisDomain: ['dataMin-5', 'dataMax+5'],
 };
 
 export default function Chart() {
@@ -85,7 +42,7 @@ export default function Chart() {
   return (
     <ResponsiveContainer>
       <LineChart width={1200} height={600} data={formattedData} margin={chartState.chartMarigin}>
-        <CartesianGrid fill="#111" opacity={0.2} />
+        <CartesianGrid fill="#eee" opacity={0.2} />
         <XAxis domain={chartState.xAxisDomain} dataKey="timeAxis">
           <Label value="Time" position="insideBottom" offset={-10} />
         </XAxis>
@@ -95,7 +52,16 @@ export default function Chart() {
 
         <Line
           type="monotone"
-          hide={!visibleValues.has('hum')}
+          hide={!visibleValues.has('TP')}
+          dataKey="temp"
+          name="Temperature"
+          stroke="#82ca9d"
+          strokeWidth={2}
+          unit="°C"
+        />
+        <Line
+          type="monotone"
+          hide={!visibleValues.has('HD')}
           dataKey="hum"
           name="Humidity"
           stroke="#8884d8"
@@ -104,12 +70,39 @@ export default function Chart() {
         />
         <Line
           type="monotone"
-          hide={!visibleValues.has('temp')}
-          dataKey="temp"
-          name="Temperature"
-          stroke="#82ca9d"
+          hide={!visibleValues.has('PH')}
+          dataKey="ph"
+          name="pH"
+          stroke="#823afd"
           strokeWidth={2}
-          unit="°C"
+          unit="pH"
+        />
+        <Line
+          type="monotone"
+          hide={!visibleValues.has('GH')}
+          dataKey="g_hum"
+          name="GH"
+          stroke="#f88488"
+          strokeWidth={2}
+          unit="%"
+        />
+        <Line
+          type="monotone"
+          hide={!visibleValues.has('AQ')}
+          dataKey="air"
+          name="Air"
+          stroke="#c2ca5d"
+          strokeWidth={2}
+          unit="%"
+        />
+        <Line
+          type="monotone"
+          hide={!visibleValues.has('LT')}
+          dataKey="light"
+          name="Light"
+          stroke="#7ab4f8"
+          strokeWidth={2}
+          unit="%"
         />
       </LineChart>
     </ResponsiveContainer>
