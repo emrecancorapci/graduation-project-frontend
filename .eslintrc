@@ -31,6 +31,7 @@
   },
   "plugins": [
     "@typescript-eslint", // Ready for flat config
+    "@tanstack/query",
     "import", // Not ready for flat config yet: https://github.com/import-js/eslint-plugin-import/issues/2948
     "jsx-a11y", // Not ready for flat config yet: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/978
     "react", // Not ready for flat config yet: https://github.com/jsx-eslint/eslint-plugin-react/issues/3699
@@ -63,6 +64,7 @@
     "plugin:security/recommended-legacy",
     "plugin:tailwindcss/recommended",
     "plugin:unicorn/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
     "prettier"
   ],
   "rules": {
