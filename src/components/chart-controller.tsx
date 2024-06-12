@@ -32,17 +32,15 @@ export default function ChartController() {
     setVisible('LT', true);
   }, [setVisible]);
 
+  const isAllVisible = isHdVisible && isTpVisible && isPhVisible && isGhVisible && isAqVisible && isLtVisible;
+
   return (
     <div className="grid grid-cols-1 flex-row gap-8 p-4 font-light">
       <div className="flex flex-row items-center gap-4">
         <h3 className="text-xl font-semibold text-foreground">Visibility</h3>
         <Button
-          className="h-6 w-16"
-          variant={
-            isHdVisible && isTpVisible && isPhVisible && isGhVisible && isAqVisible && isLtVisible
-              ? 'default'
-              : 'outline'
-          }
+          className="h-6 w-16 border-foreground text-foreground"
+          variant={isAllVisible ? 'default' : 'outline'}
           onClick={setAllVisible}
         >
           All

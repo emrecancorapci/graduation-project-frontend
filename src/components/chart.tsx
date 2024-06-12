@@ -2,24 +2,20 @@ import { useState } from 'react';
 import { CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import mockData from '@/assets/mock_data.json';
+import sensors from '@/assets/mock-sensors';
 import { useChartControllerStore } from '@/stores/chart-controller-store';
 
-import ChartTooltip from './chart-tooltip';
+import ChartTooltip from './ui/chart-tooltip';
 
 const formattedData = mockData
   .map((data) => ({
-    time: new Date(data.date).toUTCString(),
-    timeAxis: new Date(data.date).toLocaleTimeString('tr-TR', {
+    ...data,
+    time: new Date(data.time).toUTCString(),
+    timeAxis: new Date(data.time).toLocaleTimeString('tr-TR', {
       hour: '2-digit',
       minute: '2-digit',
       hour12: false,
     }),
-    temp: data.temp,
-    hum: data.hum,
-    ph: data.ph.toFixed(2),
-    g_hum: data.g_hum,
-    air: data.air,
-    light: data.light,
   }))
   .sort((a, b) => a.time.localeCompare(b.time));
 
@@ -33,6 +29,8 @@ const initialState = {
   xAxisDomain: ['dataMin', 'dataMax'],
   yAxisDomain: [0, 'dataMax+5'],
 };
+
+const strokes = ['#82ca9d', '#8884d8', '#823afd', '#f88488', '#c2ca5d', '#7ab4f8'];
 
 export default function Chart() {
   const visibleValues = useChartControllerStore((state) => state.visibleValues);
@@ -51,60 +49,19 @@ export default function Chart() {
         <Tooltip content={<ChartTooltip />} />
         <Legend verticalAlign="top" height={42} />
 
-        <Line
-          type="monotone"
-          hide={!visibleValues.has('TP')}
-          dataKey="temp"
-          name="Temperature"
-          stroke="#82ca9d"
-          strokeWidth={2}
-          unit="°C"
-        />
-        <Line
-          type="monotone"
-          hide={!visibleValues.has('HD')}
-          dataKey="hum"
-          name="Humidity"
-          stroke="#8884d8"
-          strokeWidth={2}
-          unit="%"
-        />
-        <Line
-          type="monotone"
-          hide={!visibleValues.has('PH')}
-          dataKey="ph"
-          name="pH"
-          stroke="#823afd"
-          strokeWidth={2}
-          unit="pH"
-        />
-        <Line
-          type="monotone"
-          hide={!visibleValues.has('GH')}
-          dataKey="g_hum"
-          name="Ground Humidity"
-          stroke="#f88488"
-          strokeWidth={2}
-          unit="%"
-        />
-        <Line
-          type="monotone"
-          hide={!visibleValues.has('AQ')}
-          dataKey="air"
-          name="Air"
-          stroke="#c2ca5d"
-          strokeWidth={2}
-          unit="%"
-        />
-        <Line
-          type="monotone"
-          hide={!visibleValues.has('LT')}
-          dataKey="light"
-          name="Light"
-          stroke="#7ab4f8"
-          strokeWidth={2}
-          unit="%"
-        />
+        {sensors.map((sensor, index) => (
+          <Line
+            key={sensor.id}
+            type="monotone"
+            hide={!visibleValues.has(sensor.short)}
+            dataKey={sensor.short.toLowerCase()}
+            name={sensor.name}
+            // eslint-disable-next-line security/detect-object-injection
+            stroke={strokes[index]}
+            strokeWidth={2}
+            unit={sensor.unit}
+          />
+        ))}
       </LineChart>
     </ResponsiveContainer>
   );
